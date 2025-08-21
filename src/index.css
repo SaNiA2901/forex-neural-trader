@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -38,20 +34,42 @@ All colors MUST be HSL.
 
     --radius: 0.5rem;
 
+    /* Trading-specific tokens */
+    --trading-success: 142 76% 36%;
+    --trading-success-foreground: 0 0% 98%;
+    --trading-danger: 0 84% 60%;
+    --trading-danger-foreground: 0 0% 98%;
+    --trading-warning: 48 96% 53%;
+    --trading-warning-foreground: 0 0% 9%;
+    --trading-info: 200 98% 39%;
+    --trading-info-foreground: 0 0% 98%;
+    
+    /* Trading status colors */
+    --bullish: 142 70% 45%;
+    --bullish-foreground: 0 0% 98%;
+    --bearish: 0 70% 50%;
+    --bearish-foreground: 0 0% 98%;
+    --neutral: 45 5% 50%;
+    --neutral-foreground: 0 0% 98%;
+    
+    /* Trading gradients */
+    --gradient-bullish: linear-gradient(135deg, hsl(142 70% 45%), hsl(142 60% 55%));
+    --gradient-bearish: linear-gradient(135deg, hsl(0 70% 50%), hsl(0 60% 60%));
+    --gradient-primary: linear-gradient(135deg, hsl(222.2 47.4% 11.2%), hsl(222.2 47.4% 21.2%));
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(210 40% 98%));
+    
+    /* Enhanced shadows */
+    --shadow-trading: 0 4px 12px -2px hsl(222.2 47.4% 11.2% / 0.1);
+    --shadow-success: 0 4px 12px -2px hsl(142 76% 36% / 0.2);
+    --shadow-danger: 0 4px 12px -2px hsl(0 84% 60% / 0.2);
+
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -83,6 +101,36 @@ All colors MUST be HSL.
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+    
+    /* Trading-specific tokens - Dark mode */
+    --trading-success: 142 70% 45%;
+    --trading-success-foreground: 0 0% 98%;
+    --trading-danger: 0 70% 50%;
+    --trading-danger-foreground: 0 0% 98%;
+    --trading-warning: 48 90% 60%;
+    --trading-warning-foreground: 0 0% 9%;
+    --trading-info: 200 90% 50%;
+    --trading-info-foreground: 0 0% 98%;
+    
+    /* Trading status colors - Dark mode */
+    --bullish: 142 60% 50%;
+    --bullish-foreground: 0 0% 98%;
+    --bearish: 0 60% 55%;
+    --bearish-foreground: 0 0% 98%;
+    --neutral: 45 10% 60%;
+    --neutral-foreground: 0 0% 98%;
+    
+    /* Trading gradients - Dark mode */
+    --gradient-bullish: linear-gradient(135deg, hsl(142 60% 50%) 0%, hsl(142 70% 40%) 100%);
+    --gradient-bearish: linear-gradient(135deg, hsl(0 60% 55%) 0%, hsl(0 70% 45%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(210 40% 98%) 0%, hsl(212.7 26.8% 83.9%) 100%);
+    --gradient-card: linear-gradient(135deg, hsl(222.2 84% 4.9%) 0%, hsl(217.2 32.6% 17.5%) 100%);
+    
+    /* Enhanced shadows - Dark mode */
+    --shadow-trading: 0 4px 12px -2px hsl(0 0% 0% / 0.3);
+    --shadow-success: 0 4px 12px -2px hsl(142 60% 50% / 0.3);
+    --shadow-danger: 0 4px 12px -2px hsl(0 60% 55% / 0.3);
+    
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -101,5 +149,59 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* Trading Card Variants */
+  .trading-card {
+    @apply bg-card border border-border rounded-lg shadow-[var(--shadow-trading)];
+  }
+  
+  .trading-card-success {
+    @apply bg-gradient-to-br from-trading-success/10 to-trading-success/5 border-trading-success/20;
+  }
+  
+  .trading-card-danger {
+    @apply bg-gradient-to-br from-trading-danger/10 to-trading-danger/5 border-trading-danger/20;
+  }
+
+  /* Status Indicators */
+  .status-bullish {
+    @apply bg-bullish text-bullish-foreground;
+  }
+  
+  .status-bearish {
+    @apply bg-bearish text-bearish-foreground;
+  }
+  
+  .status-neutral {
+    @apply bg-neutral text-neutral-foreground;
+  }
+
+  /* Interactive Elements */
+  .trading-button-success {
+    @apply bg-trading-success hover:bg-trading-success/90 text-trading-success-foreground shadow-[var(--shadow-success)] hover:shadow-lg transition-all duration-200;
+  }
+  
+  .trading-button-danger {
+    @apply bg-trading-danger hover:bg-trading-danger/90 text-trading-danger-foreground shadow-[var(--shadow-danger)] hover:shadow-lg transition-all duration-200;
+  }
+
+  /* Gradient Backgrounds */
+  .bg-gradient-bullish {
+    background: var(--gradient-bullish);
+  }
+  
+  .bg-gradient-bearish {
+    background: var(--gradient-bearish);
+  }
+  
+  .bg-gradient-primary {
+    background: var(--gradient-primary);
+  }
+  
+  .bg-gradient-card {
+    background: var(--gradient-card);
   }
 }
