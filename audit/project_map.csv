@@ -1,0 +1,82 @@
+Path,Type,Purpose,Dependencies,Status,LOC,Priority
+src/App.tsx,Component,Main application component,"React Router, TradingStore",Healthy,~50,Medium
+src/main.tsx,Entry,Application entry point,"React, App component",Healthy,~20,High
+src/index.css,Styles,Global styles and design tokens,Tailwind CSS,Healthy,~100,Medium
+src/types/session.ts,Types,Session and candle data interfaces,None,Healthy,~80,High
+src/types/trading.ts,Types,Trading and ML prediction interfaces,None,Updated,~130,High
+src/store/TradingStore.tsx,Store,Global state management,"Zustand, session types",Healthy,~200,High
+src/lib/utils.ts,Utils,Utility functions,"clsx, tailwind-merge",Healthy,~50,Low
+src/pages/Index.tsx,Page,Main trading dashboard,"80+ components",Needs Fix,~150,High
+src/pages/NotFound.tsx,Page,404 error page,Basic React,Healthy,~30,Low
+src/services/predictionService.ts,Service,Core prediction algorithms,"CandleData, ML service",Large File,558,Critical
+src/services/advancedMLService.ts,Service,Advanced ML prediction models,"Neural networks, TensorFlow",Large File,1209+,Critical
+src/services/professionalMLService.ts,Service,Professional ML ensemble,"Advanced algorithms",Unknown,Unknown,High
+src/services/marketDataService.ts,Service,Real-time market data,"WebSocket, API calls",Needs Review,Unknown,High
+src/services/riskManagementService.ts,Service,Risk calculation and management,"Statistical models",Needs Review,Unknown,High
+src/services/candleService.ts,Service,Candle data processing,"Session management",Healthy,Unknown,Medium
+src/services/sessionService.ts,Service,Session state management,"Supabase, persistence",Healthy,Unknown,Medium
+src/components/ui/AdvancedMLEngine.tsx,Component,ML model interface,"ML services, charts",Fixed,430+,High
+src/components/ui/AdvancedTechnicalAnalysis.tsx,Component,Technical analysis dashboard,"Pattern detection",Needs Fix,Unknown,High
+src/components/ui/BinaryOptionsPredictor.tsx,Component,Main prediction interface,"Session, prediction",Fixed,110,High
+src/components/ui/RealTimeDataFeed.tsx,Component,Live market data display,"Market service, streaming",Needs Fix,395,High
+src/components/ui/RiskManagementDashboard.tsx,Component,Risk monitoring interface,"Risk service, charts",Needs Fix,Unknown,High
+src/components/ui/TechnicalIndicators.tsx,Component,Technical indicator widgets,"RSI, MACD, Moving Averages",Fixed,26,Medium
+src/components/ui/TradingSignals.tsx,Component,Signal generation and display,"Market sentiment, tips",Needs Fix,Unknown,Medium
+src/components/ui/PriceChart.tsx,Component,Candlestick chart display,"Recharts, candle data",Healthy,Unknown,Medium
+src/components/ui/MarketOverview.tsx,Component,Market summary dashboard,"Market data service",Healthy,Unknown,Medium
+src/components/ui/MLPredictions.tsx,Component,ML prediction results,"Prediction services",Healthy,Unknown,Medium
+src/components/ui/RiskManagement.tsx,Component,Risk control interface,"Risk calculations",Healthy,Unknown,Medium
+src/components/ui/AutoTradingStrategies.tsx,Component,Automated trading logic,"Strategy algorithms",Healthy,Unknown,Low
+src/components/ui/AdvancedAnalytics.tsx,Component,Advanced analytics dashboard,"Data visualization",Healthy,Unknown,Low
+src/components/ui/WeightedPriceForecast.tsx,Component,Price forecasting widget,"ML predictions",Healthy,Unknown,Medium
+src/components/ui/ErrorBoundary.tsx,Component,Error handling boundary,"React error boundaries",Healthy,Unknown,High
+src/components/ui/RSIIndicator.tsx,Component,RSI technical indicator,"Technical calculations",Healthy,Unknown,Low
+src/components/ui/MACDIndicator.tsx,Component,MACD technical indicator,"Technical calculations",Healthy,Unknown,Low
+src/components/ui/MovingAveragesIndicator.tsx,Component,Moving averages display,"Technical calculations",Healthy,Unknown,Low
+src/components/ui/StochasticIndicator.tsx,Component,Stochastic oscillator,"Technical calculations",Healthy,Unknown,Low
+src/components/ui/MarketSentiment.tsx,Component,Market sentiment analysis,"Sentiment algorithms",Healthy,Unknown,Low
+src/components/ui/SignalCard.tsx,Component,Trading signal display,"Signal processing",Healthy,Unknown,Low
+src/components/ui/TradingTips.tsx,Component,Educational trading tips,"Content management",Healthy,Unknown,Low
+src/components/ui/session/NewSessionManager.tsx,Component,Session creation interface,"Session service",Healthy,Unknown,Medium
+src/components/ui/session/SessionCard.tsx,Component,Session display card,"Session data",Healthy,Unknown,Low
+src/components/ui/session/SessionForm.tsx,Component,Session configuration form,"Form validation",Healthy,Unknown,Medium
+src/components/ui/session/SessionInfo.tsx,Component,Session information display,"Session details",Healthy,Unknown,Low
+src/components/ui/session/SessionList.tsx,Component,Session list management,"Session queries",Healthy,Unknown,Medium
+src/components/ui/session/SessionManager.tsx,Component,Session CRUD operations,"Session service",Healthy,Unknown,Medium
+src/components/ui/session/SessionStatus.tsx,Component,Session status indicator,"Real-time updates",Healthy,Unknown,Low
+src/components/ui/NewCandleInput.tsx,Component,Candle data input form,"Validation, processing",Healthy,Unknown,Medium
+src/components/ui/CandleInput.tsx,Component,Legacy candle input,"Form handling",Healthy,Unknown,Low
+src/components/ui/CandleHistory.tsx,Component,Historical candle display,"Data visualization",Healthy,Unknown,Low
+src/components/ui/PredictionDisplay.tsx,Component,Prediction result visualization,"ML predictions",Healthy,Unknown,Medium
+src/components/ui/PredictionGenerator.tsx,Component,Prediction generation interface,"ML services",Healthy,Unknown,Medium
+src/components/ui/PredictionHistory.tsx,Component,Historical predictions,"Prediction tracking",Healthy,Unknown,Low
+src/components/ui/PredictionResults.tsx,Component,Prediction outcome display,"Result analysis",Healthy,Unknown,Medium
+src/components/ui/PredictionSettings.tsx,Component,Prediction configuration,"Settings management",Healthy,Unknown,Low
+src/components/ui/predictor/PredictionHeader.tsx,Component,Prediction interface header,"UI components",Healthy,Unknown,Low
+src/components/ui/predictor/PredictionTabs.tsx,Component,Prediction tab navigation,"Tab management",Needs Fix,Unknown,Medium
+src/hooks/useApplicationState.ts,Hook,Main application state logic,"Session, candle operations",Needs Fix,Unknown,High
+src/hooks/usePatternDetection.ts,Hook,Pattern detection algorithms,"Pattern detection modules",Needs Fix,Unknown,High
+src/hooks/useCandleForm.ts,Hook,Candle input form logic,"Form validation",Healthy,Unknown,Medium
+src/hooks/useCandleOperations.ts,Hook,Candle data operations,"Data processing",Healthy,Unknown,Medium
+src/hooks/useSessionManager.ts,Hook,Session management logic,"Session service",Healthy,Unknown,High
+src/hooks/useSessionState.ts,Hook,Session state management,"State persistence",Healthy,Unknown,Medium
+src/hooks/useSessionStats.ts,Hook,Session statistics calculation,"Statistical functions",Healthy,Unknown,Low
+src/hooks/useIndicatorData.ts,Hook,Technical indicator calculations,"Mathematical functions",Healthy,Unknown,Medium
+src/hooks/usePredictionGeneration.ts,Hook,Prediction generation logic,"ML services",Healthy,Unknown,High
+src/hooks/useSignalGeneration.ts,Hook,Trading signal generation,"Signal algorithms",Healthy,Unknown,Medium
+src/hooks/useDataExport.ts,Hook,Data export functionality,"File operations",Healthy,Unknown,Low
+src/hooks/useErrorHandler.ts,Hook,Error handling logic,"Error management",Healthy,Unknown,Medium
+src/hooks/usePerformance.ts,Hook,Performance monitoring,"Performance metrics",Healthy,Unknown,Low
+src/hooks/useKeyboardShortcuts.ts,Hook,Keyboard navigation,"Event handling",Healthy,Unknown,Low
+src/utils/candleValidation.ts,Utils,Candle data validation,"Validation rules",Healthy,Unknown,Medium
+src/utils/dateTimeUtils.ts,Utils,Date and time utilities,"Date processing",Healthy,Unknown,Low
+src/utils/validation/candleValidationRules.ts,Utils,Validation rule definitions,"Business logic",Healthy,Unknown,Medium
+src/utils/validation/candleValidators.ts,Utils,Validation functions,"Input checking",Healthy,Unknown,Medium
+src/utils/validation/inputSanitization.ts,Utils,Input sanitization,"Security functions",Healthy,Unknown,High
+src/utils/validation/validationConstants.ts,Utils,Validation constants,"Configuration",Healthy,Unknown,Low
+src/integrations/supabase/client.ts,Integration,Supabase client configuration,"Database connection",Healthy,Unknown,High
+tailwind.config.ts,Config,Tailwind CSS configuration,"Design system",Healthy,~100,Medium
+vite.config.ts,Config,Vite build configuration,"Build optimization",Healthy,~50,Medium
+package.json,Config,Project dependencies and scripts,"NPM packages",Read-only,Unknown,High
+tsconfig.json,Config,TypeScript configuration,"Type checking",Read-only,Unknown,High
+.env.example,Config,Environment variables template,Missing,Missing,0,High
