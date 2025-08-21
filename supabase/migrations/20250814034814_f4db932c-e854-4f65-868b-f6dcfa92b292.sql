@@ -95,7 +95,7 @@ CREATE INDEX IF NOT EXISTS idx_candle_data_session_id ON candle_data(session_id)
 CREATE INDEX IF NOT EXISTS idx_candle_data_datetime ON candle_data(candle_datetime);
 CREATE INDEX IF NOT EXISTS idx_candle_data_session_datetime ON candle_data(session_id, candle_datetime);
 
--- 9. Добавляем ограничения безопасности (исправленный синтаксис)
-ALTER TABLE trading_sessions ADD CONSTRAINT session_name_length CHECK (char_length(session_name) <= 100);
-ALTER TABLE trading_sessions ADD CONSTRAINT pair_length CHECK (char_length(pair) <= 20);
-ALTER TABLE trading_sessions ADD CONSTRAINT timeframe_length CHECK (char_length(timeframe) <= 10);
+-- 9. Добавляем ограничения безопасности
+ALTER TABLE trading_sessions ADD CONSTRAINT IF NOT EXISTS session_name_length CHECK (char_length(session_name) <= 100);
+ALTER TABLE trading_sessions ADD CONSTRAINT IF NOT EXISTS pair_length CHECK (char_length(pair) <= 20);
+ALTER TABLE trading_sessions ADD CONSTRAINT IF NOT EXISTS timeframe_length CHECK (char_length(timeframe) <= 10);
