@@ -1,4 +1,6 @@
 import { CandleData } from '@/types/session';
+import { indicatorFactory } from './indicator-factory';
+import { MarketDataPoint } from './core/types';
 
 export interface TechnicalIndicators {
   rsi: number;
@@ -10,20 +12,88 @@ export interface TechnicalIndicators {
   adx: number;
 }
 
+// Legacy compatibility - converts CandleData to MarketDataPoint
+function convertToMarketData(candles: CandleData[]): MarketDataPoint[] {
+  return candles.map(candle => ({
+    timestamp: candle.timestamp,
+    open: candle.open,
+    high: candle.high,
+    low: candle.low,
+    close: candle.close,
+    volume: candle.volume
+  }));
+}
+
 export class TechnicalIndicatorService {
-  static calculateAll(candles: CandleData[], currentIndex: number): TechnicalIndicators {
-    const lookback = Math.min(14, currentIndex + 1);
+  static async calculateAll(candles: CandleData[], currentIndex: number): Promise<TechnicalIndicators> {
+    const lookback = Math.min(50, currentIndex + 1);
     const recentCandles = candles.slice(Math.max(0, currentIndex - lookback + 1), currentIndex + 1);
+    const marketData = convertToMarketData(recentCandles);
     
-    return {
-      rsi: this.calculateRSI(recentCandles),
-      macd: this.calculateMACD(recentCandles),
-      bollingerBands: this.calculateBollingerBands(recentCandles),
-      ema: this.calculateEMA(recentCandles),
-      stochastic: this.calculateStochastic(recentCandles),
-      atr: this.calculateATR(recentCandles),
-      adx: this.calculateADX(recentCandles)
-    };
+    try {
+      // Use new modular indicators for core calculations
+      const rsiIndicator = indicatorFactory.createRSI({ period: 14 });
+      const macdIndicator = indicatorFactory.createMACD({ fastPeriod: 12, slowPeriod: 26, signalPeriod: 9 });
+      const bbIndicator = indicatorFactory.createBollingerBands({ period: 20 });
+      const stochIndicator = indicatorFactory.createStochastic({ period: 14 });
+
+      const [rsiResult, macdResult, bbResult, stochResult] = await Promise.all([
+        rsiIndicator.calculate(marketData),
+        macdIndicator.calculate(marketData),
+        bbIndicator.calculate(marketData),
+        stochIndicator.calculate(marketData)
+      ]);
+
+      // Get latest values or fallback to legacy calculations
+      const rsi = rsiResult.values.length > 0 ? 
+        rsiResult.values[rsiResult.values.length - 1] : 
+        this.calculateRSI(recentCandles);
+
+      const macdLatest = macdResult.values.length > 0 ? 
+        macdResult.values[macdResult.values.length - 1] :
+        this.calculateMACD(recentCandles);
+
+      const bbLatest = bbResult.values.length > 0 ?
+        bbResult.values[bbResult.values.length - 1] :
+        this.calculateBollingerBands(recentCandles);
+
+      const stochLatest = stochResult.values.length > 0 ?
+        stochResult.values[stochResult.values.length - 1] :
+        this.calculateStochastic(recentCandles);
+
+      return {
+        rsi: typeof rsi === 'number' ? rsi : 50,
+        macd: {
+          line: macdLatest.macd || 0,
+          signal: macdLatest.signal || 0,
+          histogram: macdLatest.histogram || 0
+        },
+        bollingerBands: {
+          upper: bbLatest.upper || 0,
+          middle: bbLatest.middle || 0,
+          lower: bbLatest.lower || 0
+        },
+        ema: this.calculateEMA(recentCandles),
+        stochastic: {
+          k: stochLatest.k || 50,
+          d: stochLatest.d || 50
+        },
+        atr: this.calculateATR(recentCandles),
+        adx: this.calculateADX(recentCandles)
+      };
+    } catch (error) {
+      console.warn('New indicators failed, falling back to legacy:', error);
+      // Fallback to legacy calculations
+      return {
+        rsi: this.calculateRSI(recentCandles),
+        macd: this.calculateMACD(recentCandles),
+        bollingerBands: this.calculateBollingerBands(recentCandles),
+        ema: this.calculateEMA(recentCandles),
+        stochastic: this.calculateStochastic(recentCandles),
+        atr: this.calculateATR(recentCandles),
+        adx: this.calculateADX(recentCandles)
+      };
+    }
   }
 
   static calculateRSI(candles: CandleData[], period: number = 14): number {
