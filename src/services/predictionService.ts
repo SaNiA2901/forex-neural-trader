@@ -12,8 +12,8 @@ const historicalCache = new Map<string, CandleData[]>();
 export const predictionService = {
 
   // Расчет технических индикаторов
-  calculateTechnicalIndicators(candles: CandleData[], currentIndex: number): TechnicalIndicators {
-    return TechnicalIndicatorService.calculateAll(candles, currentIndex);
+  async calculateTechnicalIndicators(candles: CandleData[], currentIndex: number): Promise<TechnicalIndicators> {
+    return await TechnicalIndicatorService.calculateAll(candles, currentIndex);
   },
 
   // Анализ паттернов
@@ -48,7 +48,7 @@ export const predictionService = {
       if (!current) return null;
       
       // Технические индикаторы
-      const technical = this.calculateTechnicalIndicators(candles, currentIndex);
+      const technical = await this.calculateTechnicalIndicators(candles, currentIndex);
       
       // Анализ паттернов
       const patterns = this.analyzePatterns(candles, currentIndex);

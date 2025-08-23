@@ -67,13 +67,13 @@ export class RealMLService {
     };
   }
 
-  private extractFeatures(candles: CandleData[], currentIndex: number): FeatureSet {
+  private async extractFeatures(candles: CandleData[], currentIndex: number): Promise<FeatureSet> {
     const lookback = Math.min(20, currentIndex);
     const recentCandles = candles.slice(Math.max(0, currentIndex - lookback), currentIndex + 1);
     const current = candles[currentIndex];
 
     // Технические индикаторы
-    const technical = TechnicalIndicatorService.calculateAll(candles, currentIndex);
+    const technical = await TechnicalIndicatorService.calculateAll(candles, currentIndex);
     
     // Паттерны
     const patterns = PatternAnalysisService.analyzePatterns(candles, currentIndex);
@@ -149,7 +149,7 @@ export class RealMLService {
         return null;
       }
 
-      const features = this.extractFeatures(candles, currentIndex);
+      const features = await this.extractFeatures(candles, currentIndex);
       const inputVector = this.flattenFeatures(features);
       
       // Нормализуем вектор

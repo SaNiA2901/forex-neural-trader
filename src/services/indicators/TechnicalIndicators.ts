@@ -15,7 +15,7 @@ export interface TechnicalIndicators {
 // Legacy compatibility - converts CandleData to MarketDataPoint
 function convertToMarketData(candles: CandleData[]): MarketDataPoint[] {
   return candles.map(candle => ({
-    timestamp: candle.timestamp,
+    timestamp: new Date(candle.timestamp).getTime(),
     open: candle.open,
     high: candle.high,
     low: candle.low,
@@ -64,9 +64,9 @@ export class TechnicalIndicatorService {
       return {
         rsi: typeof rsi === 'number' ? rsi : 50,
         macd: {
-          line: macdLatest.macd || 0,
-          signal: macdLatest.signal || 0,
-          histogram: macdLatest.histogram || 0
+          line: typeof macdLatest === 'object' && 'macd' in macdLatest ? macdLatest.macd : (typeof macdLatest === 'object' && 'line' in macdLatest ? macdLatest.line : 0),
+          signal: typeof macdLatest === 'object' && 'signal' in macdLatest ? macdLatest.signal : 0,
+          histogram: typeof macdLatest === 'object' && 'histogram' in macdLatest ? macdLatest.histogram : 0
         },
         bollingerBands: {
           upper: bbLatest.upper || 0,

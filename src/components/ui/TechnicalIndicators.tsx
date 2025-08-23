@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Database, Activity, TrendingUp, TrendingDown } from "lucide-react";
 import { useTradingStore } from '@/store/TradingStore';
-import { useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { TechnicalIndicatorService } from '@/services/indicators/TechnicalIndicators';
 import RSIIndicator from "@/components/ui/RSIIndicator";
 import MACDIndicator from "@/components/ui/MACDIndicator";
@@ -19,15 +19,28 @@ const TechnicalIndicators = ({ pair, timeframe }: TechnicalIndicatorsProps) => {
   const { state } = useTradingStore();
 
   // Вычисляем технические индикаторы на основе реальных данных
-  const indicators = useMemo(() => {
-    if (!state.candles || state.candles.length < 20) {
-      return null;
-    }
+  const [indicators, setIndicators] = useState<any>(null);
 
-    const sortedCandles = [...state.candles].sort((a, b) => a.candle_index - b.candle_index);
-    const currentIndex = sortedCandles.length - 1;
-    
-    return TechnicalIndicatorService.calculateAll(sortedCandles, currentIndex);
+  useEffect(() => {
+    const calculateIndicators = async () => {
+      if (!state.candles || state.candles.length < 20) {
+        setIndicators(null);
+        return;
+      }
+
+      const sortedCandles = [...state.candles].sort((a, b) => a.candle_index - b.candle_index);
+      const currentIndex = sortedCandles.length - 1;
+      
+      try {
+        const result = await TechnicalIndicatorService.calculateAll(sortedCandles, currentIndex);
+        setIndicators(result);
+      } catch (error) {
+        console.error('Error calculating indicators:', error);
+        setIndicators(null);
+      }
+    };
+
+    calculateIndicators();
   }, [state.candles]);
 
   // Если нет активной сессии
