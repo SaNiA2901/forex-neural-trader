@@ -14,6 +14,8 @@ import AdvancedAnalytics from "@/components/ui/AdvancedAnalytics";
 import WeightedPriceForecast from "@/components/ui/WeightedPriceForecast";
 import BinaryOptionsPredictor from "@/components/ui/BinaryOptionsPredictor";
 import RealPredictionDisplay from "@/components/ui/RealPredictionDisplay";
+import { InferenceDashboard } from "@/components/ui/monitoring/InferenceDashboard";
+import { OnnxPredictionPanel } from "@/components/ui/predictor/OnnxPredictionPanel";
 import { BarChart } from "lucide-react";
 
 const Index = () => {
