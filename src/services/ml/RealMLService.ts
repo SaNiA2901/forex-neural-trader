@@ -69,7 +69,8 @@ export class RealMLService {
 
   private async extractFeatures(candles: CandleData[], currentIndex: number): Promise<FeatureSet> {
     const lookback = Math.min(20, currentIndex);
-    const recentCandles = candles.slice(Math.max(0, currentIndex - lookback), currentIndex + 1);
+    // CRITICAL FIX: Only use candles UP TO currentIndex (no look-ahead)
+    const recentCandles = candles.slice(Math.max(0, currentIndex - lookback), currentIndex);
     const current = candles[currentIndex];
 
     // Технические индикаторы
@@ -166,8 +167,9 @@ export class RealMLService {
       // Расчет уверенности на основе силы сигнала
       const confidence = this.calculateConfidence(normalizedInput, output, features);
       
-      // Создаем запись для обучения
-      this.addTrainingExample(normalizedInput, probability > 50 ? 1 : 0);
+      // CRITICAL FIX: Don't create training example with prediction as target!
+      // Training examples should only be created when we have actual outcomes
+      // this.addTrainingExample(normalizedInput, probability > 50 ? 1 : 0);
       
       // Периодическое обучение
       if (this.shouldTrain()) {
@@ -442,9 +444,26 @@ export class RealMLService {
     }
   }
 
+  // CRITICAL FIX: Proper training with actual outcomes
+  addTrainingExampleWithActualOutcome(
+    features: number[], 
+    actualDirection: 'UP' | 'DOWN',
+    predictionTimestamp: number
+  ): void {
+    const target = actualDirection === 'UP' ? 1 : 0;
+    this.addTrainingExample(features, target);
+    
+    // Trigger training if we have enough examples
+    if (this.shouldTrain()) {
+      this.trainNetwork();
+    }
+  }
+
   updateWithActualResult(predictionIndex: number, actualDirection: 'UP' | 'DOWN'): void {
     if (predictionIndex < this.trainingData.length) {
       this.trainingData[predictionIndex].actualOutcome = actualDirection === 'UP' ? 1 : 0;
+      // Update target with actual outcome
+      this.trainingData[predictionIndex].target = this.trainingData[predictionIndex].actualOutcome!;
       // Перетренируем с новыми данными
       this.trainNetwork();
     }

@@ -41,7 +41,8 @@ export const predictionService = {
         return mlPrediction;
       }
       
-      // Fallback на классическую модель если нейросеть не сработала
+      // CRITICAL FIX: Remove fallback that might return last direction
+      // Return null instead of potentially biased fallback
       if (candles.length < 5 || currentIndex < 0) return null;
       
       const current = candles[currentIndex];
