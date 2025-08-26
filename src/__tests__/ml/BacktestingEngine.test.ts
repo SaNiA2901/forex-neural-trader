@@ -22,7 +22,7 @@ describe('BacktestingEngine', () => {
     // Create mock candle data
     mockCandles = Array.from({ length: 100 }, (_, i) => ({
       id: `candle_${i}`,
-      timestamp: Date.now() + i * 60000,
+      timestamp: new Date(Date.now() + i * 60000).toISOString(),
       open: 100 + Math.random() * 10,
       high: 105 + Math.random() * 10,
       low: 95 + Math.random() * 10,
@@ -36,13 +36,13 @@ describe('BacktestingEngine', () => {
     // Create mock signals
     mockSignals = [
       {
-        timestamp: Number(mockCandles[10].timestamp),
+        timestamp: new Date(mockCandles[10].timestamp).getTime(),
         direction: 'long',
         confidence: 0.8,
         price: mockCandles[10].close
       },
       {
-        timestamp: Number(mockCandles[50].timestamp),
+        timestamp: new Date(mockCandles[50].timestamp).getTime(),
         direction: 'short',
         confidence: 0.7,
         price: mockCandles[50].close
@@ -60,7 +60,7 @@ describe('BacktestingEngine', () => {
 
     it('should respect position size limits', async () => {
       const manySignals = mockCandles.slice(0, 10).map(candle => ({
-        timestamp: candle.timestamp,
+        timestamp: new Date(candle.timestamp).getTime(),
         direction: 'long' as const,
         confidence: 0.8,
         price: candle.close
@@ -74,7 +74,7 @@ describe('BacktestingEngine', () => {
 
     it('should calculate stop loss and take profit correctly', async () => {
       const signal: PredictionSignal = {
-        timestamp: mockCandles[10].timestamp,
+        timestamp: new Date(mockCandles[10].timestamp).getTime(),
         direction: 'long',
         confidence: 0.8,
         price: mockCandles[10].close
